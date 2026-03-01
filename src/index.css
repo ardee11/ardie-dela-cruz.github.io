@@ -17,20 +17,13 @@ body,
   overflow: hidden;
   z-index: 0;
   background-color: #030303;
-
-  /* Layering multiple colors to create a 'Mesh' effect */
   background-image:
-    /* 1. Primary Blue (Top Right) */
     radial-gradient(circle at 75% 30%, rgba(45, 75, 255, 0.15), transparent 45%),
-    /* 2. Amber/Orange (Bottom Left) - Complementary color makes it pop */
     radial-gradient(circle at 20% 80%, rgba(255, 115, 45, 0.12), transparent 40%),
-    /* 3. Deep Purple/Magenta (Top Left) - Adds complexity */
     radial-gradient(circle at 15% 20%, rgba(138, 45, 255, 0.1), transparent 35%),
-    /* 4. Subtle center lift */
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02), transparent 60%);
 }
 
-/* This layer handles ONLY the dots and the vignette fade */
 .main-container::before {
   content: "";
   position: absolute;
@@ -39,16 +32,10 @@ body,
   right: 0;
   bottom: 0;
   z-index: -1;
-
-  /* The Dot Grid */
   background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
   background-size: 25px 25px;
-  /* Closer dots as requested */
-
-  /* THE VIGNETTE MASK: Fades the dots toward the edges */
   -webkit-mask-image: radial-gradient(circle, black 30%, transparent 80%);
   mask-image: radial-gradient(circle, black 30%, transparent 80%);
-
   pointer-events: none;
 }
 
@@ -64,7 +51,6 @@ body,
   z-index: 50;
   pointer-events: none;
   width: max-content;
-  /* This is crucial */
 }
 
 .hero-name {
@@ -88,24 +74,6 @@ body,
   text-transform: uppercase;
 }
 
-.nav-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-  padding: 10px 20px;
-  cursor: pointer;
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  z-index: 101;
-  /* Ensure buttons stay above the dot layer */
-}
-
-.nav-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
 .game-nav {
   position: fixed;
   top: 30px;
@@ -126,7 +94,6 @@ body,
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
   border-radius: 12px;
-  /* Slightly rounded for a modern look */
   cursor: pointer;
   backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -135,13 +102,11 @@ body,
 
 .icon-btn:hover {
   background: rgba(45, 75, 255, 0.15);
-  /* Match your blue glow */
   border-color: rgba(45, 75, 255, 0.5);
   transform: scale(1.1) translateX(5px);
   box-shadow: 0 0 20px rgba(45, 75, 255, 0.2);
 }
 
-/* Tooltip that pops out to the right */
 .tooltip {
   position: absolute;
   left: 60px;
@@ -158,13 +123,9 @@ body,
   transform: translateX(-10px);
   transition: all 0.3s ease;
   pointer-events: none;
-
   white-space: nowrap;
-  /* Prevents text from jumping to the next line */
   width: max-content;
-  /* Forces the width to match the text length */
   display: block;
-  /* Ensures it behaves as a solid block */
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
 }
 
@@ -176,7 +137,6 @@ body,
 .ferris-wheel-container {
   position: fixed;
   top: 60%;
-  /* Adjusted so the "horizon" is near the avatar's shoulders */
   left: 50%;
   z-index: 30;
   pointer-events: none;
@@ -187,21 +147,17 @@ body,
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Centering the large 90px bubble */
   margin-left: -45px;
   margin-top: -45px;
   transition: opacity 0.2s ease;
 }
 
-/* App.css Updates */
 .bubble-circle {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.03);
-  /* Keep it very dark/transparent */
   border: 1px solid;
-  /* Color handled by inline style */
   backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
@@ -209,16 +165,7 @@ body,
   transition: all 0.4s ease;
 }
 
-.skill-icon {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  /* Adds a matching glow to the icon itself */
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
-}
-
 .skill-bubble-ferris:hover .bubble-circle {
-  /* Intensify the individual glow on hover */
   background: rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }
@@ -227,10 +174,11 @@ body,
   width: 42px;
   height: 42px;
   object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
 }
 
 .skill-label-outside {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Inter', sans-serif;
   margin-top: 14px;
   font-size: 0.7rem;
   font-weight: 700;
@@ -240,16 +188,14 @@ body,
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* App.css */
 .hologram-wrapper {
   position: fixed;
   inset: 0;
   display: flex;
   justify-content: flex-end;
-  /* Pushes card to the right */
   align-items: center;
-  padding-right: 12%;
-  /* Margin from the right edge */
+  padding-right: 14%;
+  padding-bottom: 10vh;
   pointer-events: none;
   z-index: 50;
 }
@@ -258,98 +204,310 @@ body,
   pointer-events: auto;
   width: 380px;
   background: rgba(0, 255, 65, 0.05);
-  /* Very faint green tint */
   border: 1px solid rgba(0, 255, 65, 0.3);
   padding: 2rem;
   position: relative;
   backdrop-filter: blur(4px);
   color: #00ff41;
   font-family: 'Inter', monospace;
-
-  /* Holographic Tilt */
   transform: perspective(1000px) rotateY(-10deg);
-  box-shadow:
-    -10px 0 30px rgba(0, 255, 65, 0.1),
-    inset 0 0 15px rgba(0, 255, 65, 0.05);
-
-  /* Flicker Animation */
+  box-shadow: -10px 0 30px rgba(0, 255, 65, 0.1), inset 0 0 15px rgba(0, 255, 65, 0.05);
   animation: hologram-flicker 2s infinite;
 }
 
 .hologram-title {
-  text-shadow:
-    2px 0 rgba(255, 0, 0, 0.2),
-    -2px 0 rgba(0, 0, 255, 0.2);
-  margin-top: 0;      /* Remove browser default margin */
-  margin-bottom: 1rem; 
-  line-height: 1;     /* Prevents extra "leading" space above letters */
+  text-shadow: 2px 0 rgba(255, 0, 0, 0.2), -2px 0 rgba(0, 0, 255, 0.2);
+  margin: 0 0 1rem 0;
+  line-height: 1;
 }
 
-/* The horizontal lines moving down */
 .hologram-scanline {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom,
-      transparent 50%,
-      rgba(0, 255, 65, 0.05) 50%);
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 65, 0.05) 50%);
   background-size: 100% 4px;
   pointer-events: none;
 }
 
 @keyframes hologram-flicker {
-  0% {
-    opacity: 0.97;
-  }
-
-  5% {
-    opacity: 0.9;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  15% {
-    opacity: 0.95;
-  }
-
-  50% {
-    opacity: 0.98;
-  }
-
-  95% {
-    opacity: 0.9;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-.bio-text {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: #a0ffa0;
-  margin-top: 15px;
+  0%, 10%, 50%, 100% { opacity: 1; }
+  5%, 15%, 95% { opacity: 0.9; }
 }
 
 .dossier-para {
   font-size: 0.9rem;
   line-height: 1.6;
   margin-bottom: 1.2rem;
-
-  /* --- The Magic Mix for Justification --- */
   text-align: justify;
   text-justify: inter-word;
-  /* Ensures spacing is distributed between words */
   hyphens: auto;
-  /* Allows breaking long words to keep the "block" shape */
   letter-spacing: 0.01em;
-  /* Subtle spacing to improve readability */
-
-  /* Optional: Ensuring the last line doesn't stretch awkwardly */
   text-align-last: left;
+}
+
+.profile-meta-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.meta-item {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.meta-label {
+  color: rgba(0, 255, 65, 0.5);
+}
+
+.meta-value {
+  color: #00ff41;
+  font-weight: 700;
+}
+
+.dossier-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0, 255, 65, 0.5), transparent);
+  margin-bottom: 1.5rem;
+}
+
+.dossier-footer {
+  margin-top: 2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: rgba(0, 255, 65, 0.6);
+  border-top: 1px solid rgba(0, 255, 65, 0.1);
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-blink {
+  color: #00ff41;
+  animation: terminal-blink 1s steps(2) infinite;
+}
+
+@keyframes terminal-blink {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.projects-view-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+  background: transparent;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.project-card.cctv-style {
+  pointer-events: auto;
+  width: 380px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #080808;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.project-card.cctv-style:hover {
+  transform: translateY(-10px);
+  border-color: #00ff41;
+}
+
+.project-visual {
+  flex: 1.2;
+  background: #111;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-content {
+  flex: 1;
+  padding: 25px;
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cctv-overlay {
+  position: absolute;
+  inset: 0;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 5;
+  font-family: monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.cctv-rec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff4b4b;
+  font-weight: bold;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff4b4b;
+  border-radius: 50%;
+  animation: terminal-blink 1s steps(2) infinite;
+}
+
+.project-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+.stack-item {
+  color: #00ff41 !important;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.project-arrow-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.certificates-view-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  pointer-events: none;
+}
+
+.cert-row-flat {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  transform: translateY(-200px);
+  pointer-events: auto;
+}
+
+.badge-wrapper {
+  perspective: 1000px;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+}
+
+.badge-container {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.badge-icon {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+  z-index: 2;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.is-locked .badge-icon {
+  filter: brightness(0) contrast(1.2);
+  opacity: 0.35;
+}
+
+.is-unlocked:hover {
+  transform: scale(1.15);
+  background: rgba(0, 94, 255, 0.1);
+  border-color: #2431bd;
+  box-shadow: 0 0 30px rgba(74, 67, 212, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+.is-unlocked:hover .badge-icon {
+  filter: drop-shadow(0 0 10px rgba(0, 255, 65, 0.3));
+}
+
+.is-locked:hover {
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+}
+
+.badge-tooltip {
+  position: absolute;
+  bottom: -35px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.badge-container:hover .badge-tooltip {
+  opacity: 1;
+  bottom: -30px;
+  color: white;
 }
