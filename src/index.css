@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #030303;
+}
+
+.main-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  background-color: #030303;
+
+  /* Layering multiple colors to create a 'Mesh' effect */
+  background-image:
+    /* 1. Primary Blue (Top Right) */
+    radial-gradient(circle at 75% 30%, rgba(45, 75, 255, 0.15), transparent 45%),
+    /* 2. Amber/Orange (Bottom Left) - Complementary color makes it pop */
+    radial-gradient(circle at 20% 80%, rgba(255, 115, 45, 0.12), transparent 40%),
+    /* 3. Deep Purple/Magenta (Top Left) - Adds complexity */
+    radial-gradient(circle at 15% 20%, rgba(138, 45, 255, 0.1), transparent 35%),
+    /* 4. Subtle center lift */
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02), transparent 60%);
+}
+
+/* This layer handles ONLY the dots and the vignette fade */
+.main-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+
+  /* The Dot Grid */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-size: 25px 25px;
+  /* Closer dots as requested */
+
+  /* THE VIGNETTE MASK: Fades the dots toward the edges */
+  -webkit-mask-image: radial-gradient(circle, black 30%, transparent 80%);
+  mask-image: radial-gradient(circle, black 30%, transparent 80%);
+
+  pointer-events: none;
+}
+
+.hero-text-container {
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 50;
+  pointer-events: none;
+  width: max-content;
+  /* This is crucial */
+}
+
+.hero-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: clamp(3rem, 10vw, 6rem);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.771);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(45, 75, 255, 0.3);
+}
+
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0.5em;
+  color: rgba(255, 255, 255, 0.488);
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  z-index: 101;
+  /* Ensure buttons stay above the dot layer */
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.game-nav {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.icon-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.103);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 12px;
+  /* Slightly rounded for a modern look */
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.icon-btn:hover {
+  background: rgba(45, 75, 255, 0.15);
+  /* Match your blue glow */
+  border-color: rgba(45, 75, 255, 0.5);
+  transform: scale(1.1) translateX(5px);
+  box-shadow: 0 0 20px rgba(45, 75, 255, 0.2);
+}
+
+/* Tooltip that pops out to the right */
+.tooltip {
+  position: absolute;
+  left: 60px;
+  background: white;
+  color: black;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+
+  white-space: nowrap;
+  /* Prevents text from jumping to the next line */
+  width: max-content;
+  /* Forces the width to match the text length */
+  display: block;
+  /* Ensures it behaves as a solid block */
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.icon-btn:hover .tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ferris-wheel-container {
+  position: fixed;
+  top: 60%;
+  /* Adjusted so the "horizon" is near the avatar's shoulders */
+  left: 50%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.skill-bubble-ferris {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centering the large 90px bubble */
+  margin-left: -45px;
+  margin-top: -45px;
+  transition: opacity 0.2s ease;
+}
+
+/* App.css Updates */
+.bubble-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  /* Keep it very dark/transparent */
+  border: 1px solid;
+  /* Color handled by inline style */
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+.skill-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  /* Adds a matching glow to the icon itself */
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+.skill-bubble-ferris:hover .bubble-circle {
+  /* Intensify the individual glow on hover */
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.skill-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.skill-label-outside {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin-top: 14px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.773);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* App.css */
+.hologram-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: flex-end;
+  /* Pushes card to the right */
+  align-items: center;
+  padding-right: 12%;
+  /* Margin from the right edge */
+  pointer-events: none;
+  z-index: 50;
+}
+
+.hologram-card {
+  pointer-events: auto;
+  width: 380px;
+  background: rgba(0, 255, 65, 0.05);
+  /* Very faint green tint */
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  padding: 2rem;
+  position: relative;
+  backdrop-filter: blur(4px);
+  color: #00ff41;
+  font-family: 'Inter', monospace;
+
+  /* Holographic Tilt */
+  transform: perspective(1000px) rotateY(-10deg);
+  box-shadow:
+    -10px 0 30px rgba(0, 255, 65, 0.1),
+    inset 0 0 15px rgba(0, 255, 65, 0.05);
+
+  /* Flicker Animation */
+  animation: hologram-flicker 2s infinite;
+}
+
+.hologram-title {
+  text-shadow:
+    2px 0 rgba(255, 0, 0, 0.2),
+    -2px 0 rgba(0, 0, 255, 0.2);
+  margin-top: 0;      /* Remove browser default margin */
+  margin-bottom: 1rem; 
+  line-height: 1;     /* Prevents extra "leading" space above letters */
+}
+
+/* The horizontal lines moving down */
+.hologram-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom,
+      transparent 50%,
+      rgba(0, 255, 65, 0.05) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+@keyframes hologram-flicker {
+  0% {
+    opacity: 0.97;
+  }
+
+  5% {
+    opacity: 0.9;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  15% {
+    opacity: 0.95;
+  }
+
+  50% {
+    opacity: 0.98;
+  }
+
+  95% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.bio-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #a0ffa0;
+  margin-top: 15px;
+}
+
+.dossier-para {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+
+  /* --- The Magic Mix for Justification --- */
+  text-align: justify;
+  text-justify: inter-word;
+  /* Ensures spacing is distributed between words */
+  hyphens: auto;
+  /* Allows breaking long words to keep the "block" shape */
+  letter-spacing: 0.01em;
+  /* Subtle spacing to improve readability */
+
+  /* Optional: Ensuring the last line doesn't stretch awkwardly */
+  text-align-last: left;
+}
