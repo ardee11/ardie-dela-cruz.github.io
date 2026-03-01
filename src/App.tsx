@@ -4,7 +4,15 @@ import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, Loader, Environment } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { HelpCircle, User, Briefcase, Award } from "lucide-react";
+import { TextPlugin } from "gsap/TextPlugin";
+import {
+  HelpCircle,
+  User,
+  Briefcase,
+  Award,
+  Github,
+  Linkedin,
+} from "lucide-react";
 
 import { Avatar } from "./components/Avatar";
 import { NavButton } from "./components/NavButton";
@@ -13,6 +21,8 @@ import { AboutCard } from "./components/About";
 import { ProjectCard } from "./components/Project";
 import { CertificateCard } from "./components/Certificates";
 
+gsap.registerPlugin(TextPlugin);
+
 export default function App() {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
   const overlayRef = useRef<HTMLDivElement>(null!);
@@ -20,6 +30,7 @@ export default function App() {
   const loopRef = useRef<gsap.core.Timeline | null>(null);
 
   const [nodes, setNodes] = useState<any>(null);
+  const [isBlinking, setIsBlinking] = useState(true);
   const [activeMode, setActiveMode] = useState<
     "home" | "about" | "skills" | "projects" | "certificates"
   >("home");
@@ -42,18 +53,29 @@ export default function App() {
 
   const projectList = [
     {
-      title: "Corporate Identity Hub",
+      title: "EZTECH IT SOLUTIONS WEBSITE",
       type: "Public Website",
       description:
-        "Architected a high-fidelity marketing engine focused on sub-second performance and seamless interaction design.",
-      stack: ["React", "TypeScript", "GSAP", "Three.js"],
+        "Led the end-to-end development of the company's official website, focusing on a modern UI, high performance, and seamless user experience to showcase IT services and solutions.",
+      stack: ["React", "TypeScript", "Tailwind", "Preline", "Emailjs"],
+      link: "https://eztechit.com",
+      image: "/images/eztech-web.png",
     },
     {
-      title: "Lumina Nexus",
+      title: "EZPORTAL",
       type: "Internal Portal",
       description:
-        "Developed a mission-critical management system featuring role-based access, real-time data streaming, and automated reporting.",
-      stack: ["Node.js", "PostgreSQL", "Socket.io", "Tailwind"],
+        "Designed and implemented a centralized internal management system to streamline company operations, featuring automated reporting, data synchronization, and secure administrative controls.",
+      stack: [
+        "Node.js",
+        "PostgreSQL",
+        "React",
+        "Tailwind",
+        "Preline",
+        "Sheets API",
+      ],
+      link: "https://your-portal-link.com",
+      image: "/projects/eztech-ss.png",
     },
   ];
 
@@ -67,23 +89,42 @@ export default function App() {
     {
       name: "Cisco 700",
       icon: "/badge/cisco-700.png",
-      link: "https://example.com",
+      link: "https://www.credly.com/badges/f4ca465a-e15e-41b8-92c7-0fc2a94fc408",
       locked: false,
     },
     {
       name: "GCP Cloud Engineer",
       icon: "/badge/cloud-eng.png",
-      link: "https://example.com",
+      link: "https://www.credly.com/badges/d7d0a4b6-09aa-4783-8766-a05fb4f7cdb3",
       locked: false,
     },
     {
       name: "GWS Administrator",
       icon: "/badge/gws-admin.png",
-      link: "https://example.com",
+      link: "https://www.credly.com/badges/3a4f2e4d-3b94-4e6e-9a76-9274c804ca0b",
       locked: false,
     },
     { name: "Security+", icon: "/badge/cisco-700.png", link: "", locked: true },
   ];
+
+  // UPDATED: Only starts typing when 'nodes' (Avatar) exists
+  useEffect(() => {
+    if (!nodes) return;
+
+    // Make text visible once avatar is ready
+    gsap.set(textRef.current, { opacity: 1 });
+
+    const tl = gsap.timeline();
+    tl.to(".hero-name", {
+      duration: 1.5,
+      text: "ARDIE DELA CRUZ",
+      ease: "none",
+    }).to(
+      ".hero-sub",
+      { duration: 2, text: "CREATIVE DEVELOPER & DESIGNER", ease: "none" },
+      "-=0.5",
+    );
+  }, [nodes]);
 
   const moveCameraAndPose = (
     x: number,
@@ -94,11 +135,11 @@ export default function App() {
     if (!cameraRef.current || !nodes) return;
 
     setActiveMode(mode);
+    setIsBlinking(false);
 
     if (loopRef.current) {
       loopRef.current.kill();
       loopRef.current = null;
-
       gsap.to(overlayRef.current, { opacity: 0, duration: 0.3 });
 
       const tlText = gsap.timeline();
@@ -141,8 +182,14 @@ export default function App() {
     const ease = "power2.inOut";
 
     if (mode === "projects") {
-      cameraRef.current.lookAt(0, 0.2, 0);
-      gsap.to(cameraRef.current.position, { x, y, z, duration, ease });
+      gsap.to(cameraRef.current.position, {
+        x,
+        y,
+        z,
+        duration,
+        ease,
+        onStart: () => cameraRef.current.lookAt(0, y, 0),
+      });
     } else {
       gsap.to(cameraRef.current.position, {
         x,
@@ -150,11 +197,12 @@ export default function App() {
         z,
         duration,
         ease,
-        onUpdate: () => cameraRef.current.lookAt(0, 0.2, 0),
+        onUpdate: () => {
+          cameraRef.current.lookAt(0, 0.2, 0);
+        },
       });
     }
 
-    // 4. AVATAR POSES
     if (mode === "about") {
       gsap.to(nodes.LeftArm.rotation, { x: 1, y: 0.05, z: 1, duration, ease });
       gsap.to(nodes.LeftForeArm.rotation, { x: 1.9, duration, ease });
@@ -283,14 +331,36 @@ export default function App() {
           icon={Award}
           label="Certificates"
           active={activeMode === "certificates"}
-          onClick={() => moveCameraAndPose(0, -2, 20, "certificates")}
+          onClick={() => moveCameraAndPose(0, -2, 21, "certificates")}
         />
       </nav>
+
+      <div className="social-nav">
+        <a
+          href="https://github.com/ardee11"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="icon-btn"
+        >
+          <Github size={20} />
+          <span className="tooltip">GitHub</span>
+        </a>
+        <a
+          href="https://linkedin.com/in/ardie-dela-cruz"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="icon-btn"
+        >
+          <Linkedin size={20} />
+          <span className="tooltip" style={{ left: "auto", right: "60px" }}>
+            LinkedIn
+          </span>
+        </a>
+      </div>
 
       <div className="dots-vignette" />
 
       {activeMode === "about" && <AboutCard />}
-
       {activeMode === "skills" && (
         <div className="ferris-wheel-container">
           {skillList.map((skill, i) => (
@@ -303,7 +373,6 @@ export default function App() {
           ))}
         </div>
       )}
-
       {activeMode === "projects" && (
         <div className="projects-view-overlay">
           {projectList.map((project, i) => (
@@ -311,7 +380,6 @@ export default function App() {
           ))}
         </div>
       )}
-
       {activeMode === "certificates" && (
         <div className="certificates-view-overlay">
           <div className="cert-row-flat">
@@ -346,7 +414,6 @@ export default function App() {
             opacity: 0,
           }}
         />
-
         <Canvas shadows gl={{ alpha: true }}>
           <Suspense fallback={null}>
             <PerspectiveCamera
@@ -373,9 +440,10 @@ export default function App() {
         </Canvas>
       </div>
 
-      <div ref={textRef} className="hero-text-container">
-        <h1 className="hero-name">ARDIE DELA CRUZ</h1>
-        <p className="hero-sub">CREATIVE DEVELOPER & DESIGNER</p>
+      {/* Hero Text starts hidden (opacity 0) and gets shown via useEffect */}
+      <div ref={textRef} className="hero-text-container" style={{ opacity: 0 }}>
+        <h1 className="hero-name"></h1>
+        <p className={`hero-sub ${isBlinking ? "blinking-cursor" : ""}`}></p>
       </div>
       <Loader />
     </div>

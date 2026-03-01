@@ -1,12 +1,14 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ArrowRight, Camera } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface ProjectProps {
   title: string;
   description: string;
   stack: string[];
   index: number;
+  link: string;
+  image: string; // New prop for the screenshot
 }
 
 export const ProjectCard = ({
@@ -14,6 +16,8 @@ export const ProjectCard = ({
   description,
   stack,
   index,
+  link,
+  image,
 }: ProjectProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const timestamp = new Date().toLocaleDateString();
@@ -30,12 +34,11 @@ export const ProjectCard = ({
         scale: 1,
         filter: "brightness(1) blur(0px)",
         duration: 0.5,
-        delay: 1 + index * 0.1, // Staggered entry
+        delay: 1 + index * 0.1,
         ease: "back.out(1.2)",
       },
     );
 
-    // OUT: Smooth glitch exit when unmounting
     return () => {
       if (cardRef.current) {
         gsap.to(cardRef.current, {
@@ -52,20 +55,27 @@ export const ProjectCard = ({
   return (
     <div ref={cardRef} className="project-card cctv-style">
       <div className="project-visual">
+        {/* CCTV Interface Overlays */}
         <div className="cctv-overlay">
           <div className="cctv-rec">
-            <span className="rec-dot"></span> LIVE_FEED
+            <span className="rec-dot"></span> LIVE
           </div>
           <div className="cctv-cam-id">CH_0{index + 1}</div>
           <div className="cctv-timestamp">{timestamp}</div>
-          <div className="cctv-coords">LAT: 34.05 / LON: -118.24</div>
         </div>
 
-        <div className="hologram-scanline" style={{ opacity: 0.15 }} />
+        {/* The Project Image */}
+        <img
+          src={image}
+          alt={title}
+          className="project-image-bg"
+          loading="lazy"
+        />
 
-        <div className="preview-placeholder">
-          <Camera size={40} strokeWidth={1} />
-          <p className="status-blink">ENCRYPTED_SIGNAL_STABLE</p>
+        {/* Tech Decor */}
+        <div className="hologram-scanline" />
+        <div className="image-status-overlay">
+          <p className="status-blink">SIGNAL_STABLE</p>
         </div>
       </div>
 
@@ -83,9 +93,17 @@ export const ProjectCard = ({
               </span>
             ))}
           </div>
-          <div className="project-arrow-circle">
-            <ArrowRight size={16} />
-          </div>
+
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link-wrapper"
+          >
+            <div className="project-arrow-circle">
+              <ArrowRight size={16} />
+            </div>
+          </a>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ export const AboutCard = () => {
         yoyo: true,
         ease: "sine.inOut",
       },
-      "<"
+      "<",
     );
 
     // Typing Loop with Blinking Cursor
@@ -87,7 +87,7 @@ export const AboutCard = () => {
             }
           },
         },
-        index === 0 ? "<" : "-=0.01"
+        index === 0 ? "<" : "-=0.01",
       );
     });
 
@@ -107,12 +107,14 @@ export const AboutCard = () => {
         <div className="hologram-content">
           <div className="profile-meta-grid">
             <div className="meta-item">
-              <span className="meta-label">LVL: </span>
-              <span className="meta-value">{age}</span>
+              <span className="meta-label">
+                LVL: <span className="meta-value">{age}</span>
+              </span>
             </div>
             <div className="meta-item">
-              <span className="meta-label">CLASS: </span>
-              <span className="meta-value">WEB_DEVELOPER</span>
+              <span className="meta-label">
+                CLASS: <span className="meta-value">WEB_DVLPR</span>{" "}
+              </span>
             </div>
           </div>
 

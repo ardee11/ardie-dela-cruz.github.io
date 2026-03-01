@@ -28,7 +28,7 @@ export const CertificateCard = ({
         scale: 1,
         opacity: 1,
         duration: 0.6,
-        delay: 2.0 + index * 0.1,
+        delay: 1.0 + index * 0.1,
         ease: "back.out(1.7)",
       },
     );
