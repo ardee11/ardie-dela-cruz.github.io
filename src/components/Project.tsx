@@ -8,7 +8,8 @@ interface ProjectProps {
   stack: string[];
   index: number;
   link: string;
-  image: string; // New prop for the screenshot
+  image: string;
+  year: number;
 }
 
 export const ProjectCard = ({
@@ -18,65 +19,59 @@ export const ProjectCard = ({
   index,
   link,
   image,
+  year,
 }: ProjectProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const timestamp = new Date().toLocaleDateString();
 
   useEffect(() => {
     if (!cardRef.current) return;
 
-    // IN: Glitchy terminal pop-in
-    gsap.fromTo(
-      cardRef.current,
-      { opacity: 0, scale: 0.9, filter: "brightness(3) blur(10px)" },
-      {
+    // Use context to ensure clean scoping
+    let ctx = gsap.context(() => {
+      // 1. Kill any existing tweens to prevent the "double fade"
+      gsap.killTweensOf(cardRef.current);
+
+      // 2. Clear initial state
+      gsap.set(cardRef.current, { opacity: 0, y: 30 });
+
+      // 3. Play ONLY the entrance
+      gsap.to(cardRef.current, {
         opacity: 1,
+        y: 0,
         scale: 1,
         filter: "brightness(1) blur(0px)",
-        duration: 0.5,
-        delay: 1 + index * 0.1,
-        ease: "back.out(1.2)",
-      },
-    );
+        duration: 1,
+        delay: 1 + index * 0.25,
+        ease: "expo.out",
+      });
+    }, cardRef);
 
-    return () => {
-      if (cardRef.current) {
-        gsap.to(cardRef.current, {
-          opacity: 0,
-          scale: 0.95,
-          filter: "brightness(0) blur(5px)",
-          duration: 0.5,
-          ease: "power2.in",
-        });
-      }
-    };
+    // REMOVED: The gsap.to opacity 0 exit animation.
+    // This was causing the "fading out" glitch on click.
+    return () => ctx.revert();
   }, [index]);
 
   return (
-    <div ref={cardRef} className="project-card cctv-style">
+    <div
+      ref={cardRef}
+      className="project-card cctv-style"
+      style={{ opacity: 0 }} // Prevents initial flicker
+    >
       <div className="project-visual">
-        {/* CCTV Interface Overlays */}
         <div className="cctv-overlay">
           <div className="cctv-rec">
             <span className="rec-dot"></span> LIVE
           </div>
-          <div className="cctv-cam-id">CH_0{index + 1}</div>
-          <div className="cctv-timestamp">{timestamp}</div>
+          <div className="cctv-timestamp">{year}</div>
         </div>
 
-        {/* The Project Image */}
         <img
           src={image}
           alt={title}
           className="project-image-bg"
           loading="lazy"
         />
-
-        {/* Tech Decor */}
         <div className="hologram-scanline" />
-        <div className="image-status-overlay">
-          <p className="status-blink">SIGNAL_STABLE</p>
-        </div>
       </div>
 
       <div className="project-content">

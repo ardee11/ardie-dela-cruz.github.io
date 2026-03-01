@@ -55,6 +55,7 @@ export default function App() {
     {
       title: "EZTECH IT SOLUTIONS WEBSITE",
       type: "Public Website",
+      year: 2024,
       description:
         "Led the end-to-end development of the company's official website, focusing on a modern UI, high performance, and seamless user experience to showcase IT services and solutions.",
       stack: ["React", "TypeScript", "Tailwind", "Preline", "Emailjs"],
@@ -64,6 +65,7 @@ export default function App() {
     {
       title: "EZPORTAL",
       type: "Internal Portal",
+      year: 2025,
       description:
         "Designed and implemented a centralized internal management system to streamline company operations, featuring automated reporting, data synchronization, and secure administrative controls.",
       stack: [
@@ -325,7 +327,7 @@ export default function App() {
           icon={Briefcase}
           label="Projects"
           active={activeMode === "projects"}
-          onClick={() => moveCameraAndPose(0, 20, 15, "projects")}
+          onClick={() => moveCameraAndPose(-15, 1, 15, "projects")}
         />
         <NavButton
           icon={Award}
