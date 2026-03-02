@@ -26,28 +26,26 @@ export const ProjectCard = ({
   useEffect(() => {
     if (!cardRef.current) return;
 
-    // Use context to ensure clean scoping
     let ctx = gsap.context(() => {
-      // 1. Kill any existing tweens to prevent the "double fade"
       gsap.killTweensOf(cardRef.current);
 
-      // 2. Clear initial state
-      gsap.set(cardRef.current, { opacity: 0, y: 30 });
+      const isMobile = window.innerWidth < 768;
+      const responsiveY = isMobile ? 15 : 30;
+      const responsiveDelay = isMobile ? 0.2 + index * 0.1 : 1 + index * 0.25;
 
-      // 3. Play ONLY the entrance
+      gsap.set(cardRef.current, { opacity: 0, y: responsiveY });
+
       gsap.to(cardRef.current, {
         opacity: 1,
         y: 0,
         scale: 1,
         filter: "brightness(1) blur(0px)",
-        duration: 1,
-        delay: 1 + index * 0.25,
+        duration: isMobile ? 0.6 : 1,
+        delay: responsiveDelay,
         ease: "expo.out",
       });
     }, cardRef);
 
-    // REMOVED: The gsap.to opacity 0 exit animation.
-    // This was causing the "fading out" glitch on click.
     return () => ctx.revert();
   }, [index]);
 
@@ -55,7 +53,7 @@ export const ProjectCard = ({
     <div
       ref={cardRef}
       className="project-card cctv-style"
-      style={{ opacity: 0 }} // Prevents initial flicker
+      style={{ opacity: 0 }}
     >
       <div className="project-visual">
         <div className="cctv-overlay">

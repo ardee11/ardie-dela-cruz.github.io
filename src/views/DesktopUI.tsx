@@ -4,7 +4,7 @@ import { AboutCard } from "../components/About";
 import { SkillBubble } from "../components/SkillBubble";
 import { ProjectCard } from "../components/Project";
 import { CertificateCard } from "../components/Certificates";
-import { SKILL_LIST, PROJECT_LIST, CERT_LIST } from "../constants";
+import { SKILL_LIST, PROJECT_LIST, CERT_LIST } from "../constants/index";
 
 interface DesktopUIProps {
   activeMode: string;

@@ -73,8 +73,9 @@
   margin: 0 0 20px 0;
   text-align: left;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4; 
   overflow: hidden;
 }
 
@@ -135,4 +136,23 @@
   bottom: 10px;
   right: 15px;
   z-index: 6;
+}
+
+@media (max-width: 1024px) {
+  .projects-view-overlay {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 160px; 
+    padding-bottom: 60px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 50px;
+  }
+
+  .project-card.cctv-style {
+    width: 64vw;
+    height: auto;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
 }
