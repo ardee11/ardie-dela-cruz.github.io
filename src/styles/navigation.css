@@ -1,0 +1,67 @@
+/* --- NAVIGATION --- */
+.game-nav {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.icon-btn {
+  width: 50px; height: 50px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.103);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white; border-radius: 12px;
+  cursor: pointer; backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.icon-btn:hover {
+  background: rgba(45, 75, 255, 0.15);
+  border-color: rgba(45, 75, 255, 0.5);
+  transform: scale(1.1) translateX(5px);
+  box-shadow: 0 0 20px rgba(45, 75, 255, 0.2);
+}
+
+.tooltip {
+  position: absolute; left: 60px;
+  background: white; color: black;
+  padding: 4px 12px; border-radius: 4px;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  opacity: 0; transform: translateX(-10px);
+  transition: all 0.3s ease; pointer-events: none;
+  white-space: nowrap; width: max-content; display: block;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.icon-btn:hover .tooltip { opacity: 1; transform: translateX(0); }
+
+/* --- SOCIAL NAV (RIGHT SIDE) --- */
+.social-nav {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.social-nav .tooltip {
+  right: auto;
+  left: 60px;
+  transform: translateX(10px);
+}
+
+.social-nav .icon-btn:hover .tooltip {
+  transform: translateX(0);
+}
+
+.social-nav a.icon-btn {
+  text-decoration: none;
+}

@@ -1,0 +1,63 @@
+/* --- BACKGROUND & MESH --- */
+.main-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  background-color: #030303;
+  background-image:
+    radial-gradient(circle at 75% 30%, rgba(45, 75, 255, 0.15), transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(255, 115, 45, 0.12), transparent 40%),
+    radial-gradient(circle at 15% 20%, rgba(138, 45, 255, 0.1), transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02), transparent 60%);
+}
+
+.main-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-size: 25px 25px;
+  -webkit-mask-image: radial-gradient(circle, black 30%, transparent 80%);
+  mask-image: radial-gradient(circle, black 30%, transparent 80%);
+  pointer-events: none;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none; 
+}
+
+.canvas-wrapper canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.system-hud-right {
+  position: fixed;
+  right: 30px;
+  top: 30px;
+  text-align: right;
+  font-family: 'Courier New', monospace;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  z-index: 100;
+  letter-spacing: 2px;
+}
+
+.hud-line {
+  width: 100px;
+  height: 1px;
+  background: white;
+  margin-bottom: 10px;
+  opacity: 0.3;
+}

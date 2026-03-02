@@ -1,0 +1,45 @@
+/* --- SKILLS / FERRIS WHEEL --- */
+.ferris-wheel-container {
+  position: fixed;
+  top: 60%; left: 50%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.skill-bubble-ferris {
+  position: absolute;
+  display: flex; flex-direction: column; align-items: center;
+  margin-left: -45px; margin-top: -45px;
+  transition: opacity 0.2s ease;
+}
+
+.bubble-circle {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid;
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.4s ease;
+}
+
+.skill-bubble-ferris:hover .bubble-circle {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.skill-icon {
+  width: 42px; height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+.skill-label-outside {
+  font-family: 'Inter', sans-serif;
+  margin-top: 14px;
+  font-size: 0.7rem; font-weight: 700;
+  color: rgba(255, 255, 255, 0.773);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}

@@ -1,0 +1,67 @@
+/* --- ABOUT / DOSSIER RESTORATION --- */
+.hologram-wrapper {
+  position: fixed; inset: 0;
+  display: flex; justify-content: flex-end; align-items: center;
+  padding-right: 14%; padding-bottom: 10vh;
+  pointer-events: none; z-index: 50;
+}
+
+.hologram-card {
+  pointer-events: auto; width: 380px;
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  padding: 2.5rem; position: relative;
+  backdrop-filter: blur(8px); color: #00ff41;
+  font-family: 'JetBrains Mono', monospace;
+  transform: perspective(1000px) rotateY(-10deg);
+  box-shadow: -10px 0 30px rgba(0, 255, 65, 0.1), inset 0 0 15px rgba(0, 255, 65, 0.05);
+  animation: hologram-flicker 2s infinite;
+}
+
+.hologram-title {
+  font-size: 1.8rem; font-weight: 800; text-transform: uppercase;
+  margin: 0; line-height: 1;
+  text-shadow: 2px 0 rgba(255, 0, 0, 0.2), -2px 0 rgba(0, 0, 255, 0.2);
+}
+
+.dossier-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0, 255, 65, 0.8), rgba(0, 255, 65, 0.2), transparent);
+  margin-top: 0.8rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.profile-meta-grid {
+  display: flex; justify-content: flex-start;
+  gap: 2rem; margin-bottom: 1.5rem;
+}
+
+.meta-item {
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  flex: auto;
+  align-items: center;
+}
+
+.meta-label { color: rgba(0, 255, 65, 0.5); display: block; }
+.meta-value { color: #00ff41; font-weight: 700; font-size: 0.85rem; }
+
+.dossier-para {
+  font-size: 0.85rem; line-height: 1.6;
+  margin-bottom: 1rem; text-align: justify;
+  color: rgba(0, 255, 65, 0.9);
+}
+
+.dossier-footer {
+  margin-top: 1.5rem; font-size: 0.65rem;
+  color: rgba(0, 255, 65, 0.5);
+  border-top: 1px solid rgba(0, 255, 65, 0.1);
+  padding-top: 1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+
+@keyframes hologram-flicker {
+  0%, 10%, 50%, 100% { opacity: 1; }
+  5%, 15%, 95% { opacity: 0.9; }
+}

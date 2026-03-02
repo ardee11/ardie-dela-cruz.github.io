@@ -1,4 +1,3 @@
-import "./App.css";
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, Loader, Environment } from "@react-three/drei";
