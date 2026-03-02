@@ -123,7 +123,7 @@ export const AboutCard = () => {
           <p className="dossier-para">
             It all started with gaming. I got into coding because I wanted to
             build my own "perfect game." At 14, I was staring at walls of code
-            and documentation that made zero sense—it was a rough start, but I
+            and documentations that made zero sense to me at that time, but I
             was hooked.
           </p>
 

@@ -37,6 +37,29 @@ body,
   pointer-events: none;
 }
 
+.canvas-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  
+  /* Critical additions for a seamless look */
+  overflow: hidden; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Prevents mobile browser address bars from jumping */
+  touch-action: none; 
+}
+
+/* Ensure the canvas inside scales correctly */
+.canvas-wrapper canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* --- TERMINAL HERO SECTION --- */
 .hero-text-container {
   position: fixed;
@@ -67,14 +90,13 @@ body,
 .hero-sub {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 400;
-  font-size: clamp(0.6rem, 2vw, 0.8rem);
+  font-size: clamp(1.4rem, 2vw, 0.8rem);
   letter-spacing: 0.4em;
   color: #04c434;
-  margin-top: 8px;
+  margin-top: 2px;
   display: flex;
   align-items: center;
-  justify-content: center; /* Centered sub */
-  gap: 8px;
+  justify-content: center;
   min-height: 1.2em;
   text-shadow: 0 0 2px rgba(6, 77, 24, 0.566);
   text-transform: uppercase;
@@ -82,7 +104,7 @@ body,
 
 .blinking-cursor::after {
   content: "";
-  width: 8px;
+  width: 4px;
   height: 1.2em;
   background: #00ff41;
   display: inline-block;
@@ -195,7 +217,7 @@ body,
 .projects-view-overlay {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 10;
   display: flex; flex-direction: row; align-items: center; justify-content: center;
   gap: 30px; padding: 40px;
   background: transparent; pointer-events: none;
@@ -342,7 +364,7 @@ body,
 .certificates-view-overlay {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 10;
   display: flex; align-items: center; justify-content: center;
   background: transparent; pointer-events: none;
 }
@@ -472,8 +494,8 @@ body,
 /* --- SOCIAL NAV (RIGHT SIDE) --- */
 .social-nav {
   position: fixed;
-  top: 30px;
-  right: 30px; /* Positioned on the opposite side */
+  bottom: 30px;
+  left: 30px; /* Positioned on the opposite side */
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -482,8 +504,8 @@ body,
 
 /* Specific tooltip adjustment for the right side so it pops out to the left */
 .social-nav .tooltip {
-  left: auto;
-  right: 60px;
+  right: auto;
+  left: 60px;
   transform: translateX(10px);
 }
 
@@ -494,4 +516,24 @@ body,
 /* Ensure social links look like your buttons */
 .social-nav a.icon-btn {
   text-decoration: none;
+}
+
+.system-hud-right {
+  position: fixed;
+  right: 30px;
+  top: 30px;
+  text-align: right;
+  font-family: 'Courier New', monospace; /* Monospace fits the dev vibe */
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  z-index: 100;
+  letter-spacing: 2px;
+}
+
+.hud-line {
+  width: 100px;
+  height: 1px;
+  background: white;
+  margin-bottom: 10px;
+  opacity: 0.3;
 }

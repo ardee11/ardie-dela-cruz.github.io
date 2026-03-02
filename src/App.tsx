@@ -3,450 +3,73 @@ import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera, Loader, Environment } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { TextPlugin } from "gsap/TextPlugin";
-import {
-  HelpCircle,
-  User,
-  Briefcase,
-  Award,
-  Github,
-  Linkedin,
-} from "lucide-react";
-
 import { Avatar } from "./components/Avatar";
-import { NavButton } from "./components/NavButton";
-import { SkillBubble } from "./components/SkillBubble";
-import { AboutCard } from "./components/About";
-import { ProjectCard } from "./components/Project";
-import { CertificateCard } from "./components/Certificates";
-
-gsap.registerPlugin(TextPlugin);
+import { DesktopUI } from "./views/DesktopUI";
+// import { MobileUI } from "./views/MobileUI";
+import { useAvatarController } from "./hooks/avatarController";
 
 export default function App() {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
-  const overlayRef = useRef<HTMLDivElement>(null!);
-  const textRef = useRef<HTMLDivElement>(null!);
-  const loopRef = useRef<gsap.core.Timeline | null>(null);
-
   const [nodes, setNodes] = useState<any>(null);
   const [isBlinking, setIsBlinking] = useState(true);
-  const [activeMode, setActiveMode] = useState<
-    "home" | "about" | "skills" | "projects" | "certificates"
-  >("home");
+  const [activeMode, setActiveMode] = useState<any>("home");
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  const skillList = [
-    { name: "React", icon: "/icons/react.png", color: "#61DAFB" },
-    { name: "PostgreSQL", icon: "/icons/postgresql.png", color: "#336791" },
-    { name: "Node.js", icon: "/icons/nodejs.webp", color: "#339933" },
-    { name: "TypeScript", icon: "/icons/typescript.png", color: "#3178C6" },
-    { name: "JavaScript", icon: "/icons/javascript.svg", color: "#a79826" },
-    { name: "Tailwind", icon: "/icons/tailwind.png", color: "#06B6D4" },
-    { name: "Google Cloud", icon: "/icons/google-cloud.png", color: "#4285F4" },
-    { name: "Git", icon: "/icons/git.png", color: "#F05032" },
-    { name: "Bootstrap", icon: "/icons/bootstrap.png", color: "#7952B3" },
-    { name: "Vue.js", icon: "/icons/vue.png", color: "#4FC08D" },
-    { name: "C++", icon: "/icons/c++.png", color: "#00599C" },
-    { name: "Figma", icon: "/icons/figma.png", color: "#cc4820" },
-    { name: "RESTful API", icon: "/icons/rest-api.png", color: "#8fbcb7" },
-  ];
-
-  const projectList = [
-    {
-      title: "EZTECH IT SOLUTIONS WEBSITE",
-      type: "Public Website",
-      year: 2024,
-      description:
-        "Led the end-to-end development of the company's official website, focusing on a modern UI, high performance, and seamless user experience to showcase IT services and solutions.",
-      stack: ["React", "TypeScript", "Tailwind", "Preline", "Emailjs"],
-      link: "https://eztechit.com",
-      image: "/images/eztech-web.png",
-    },
-    {
-      title: "EZPORTAL",
-      type: "Internal Portal",
-      year: 2025,
-      description:
-        "Designed and implemented a centralized internal management system to streamline company operations, featuring automated reporting, data synchronization, and secure administrative controls.",
-      stack: [
-        "Node.js",
-        "PostgreSQL",
-        "React",
-        "Tailwind",
-        "Preline",
-        "Sheets API",
-      ],
-      link: "https://your-portal-link.com",
-      image: "/projects/eztech-ss.png",
-    },
-  ];
-
-  const certList = [
-    {
-      name: "AWS Architect",
-      icon: "/badge/cloud-eng.png",
-      link: "",
-      locked: true,
-    },
-    {
-      name: "Cisco 700",
-      icon: "/badge/cisco-700.png",
-      link: "https://www.credly.com/badges/f4ca465a-e15e-41b8-92c7-0fc2a94fc408",
-      locked: false,
-    },
-    {
-      name: "GCP Cloud Engineer",
-      icon: "/badge/cloud-eng.png",
-      link: "https://www.credly.com/badges/d7d0a4b6-09aa-4783-8766-a05fb4f7cdb3",
-      locked: false,
-    },
-    {
-      name: "GWS Administrator",
-      icon: "/badge/gws-admin.png",
-      link: "https://www.credly.com/badges/3a4f2e4d-3b94-4e6e-9a76-9274c804ca0b",
-      locked: false,
-    },
-    { name: "Security+", icon: "/badge/cisco-700.png", link: "", locked: true },
-  ];
-
-  // UPDATED: Only starts typing when 'nodes' (Avatar) exists
-  useEffect(() => {
-    if (!nodes) return;
-
-    // Make text visible once avatar is ready
-    gsap.set(textRef.current, { opacity: 1 });
-
-    const tl = gsap.timeline();
-    tl.to(".hero-name", {
-      duration: 1.5,
-      text: "ARDIE DELA CRUZ",
-      ease: "none",
-    }).to(
-      ".hero-sub",
-      { duration: 2, text: "CREATIVE DEVELOPER & DESIGNER", ease: "none" },
-      "-=0.5",
-    );
-  }, [nodes]);
-
-  const moveCameraAndPose = (
-    x: number,
-    y: number,
-    z: number,
-    mode: "about" | "skills" | "home" | "projects" | "certificates",
-  ) => {
-    if (!cameraRef.current || !nodes) return;
-
-    setActiveMode(mode);
-    setIsBlinking(false);
-
-    if (loopRef.current) {
-      loopRef.current.kill();
-      loopRef.current = null;
-      gsap.to(overlayRef.current, { opacity: 0, duration: 0.3 });
-
-      const tlText = gsap.timeline();
-      tlText.to(textRef.current, {
-        left: "100%",
-        xPercent: -100,
-        x: -40,
-        bottom: "20px",
-        duration: 1.8,
-        ease: "expo.inOut",
-      });
-      tlText.to(
-        ".hero-name",
-        {
-          fontSize: "1.5rem",
-          fontWeight: 600,
-          duration: 1.8,
-          ease: "expo.inOut",
-        },
-        0,
-      );
-      tlText.to(
-        ".hero-sub",
-        {
-          fontSize: "0.5rem",
-          letterSpacing: "0.3em",
-          opacity: 0.8,
-          duration: 1.8,
-          ease: "expo.inOut",
-        },
-        0,
-      );
-    }
-
-    if (cameraRef.current.position.z < 0) {
-      gsap.set(cameraRef.current.position, { x: 0, y: 0, z: 10 });
-    }
-
-    const duration = 2.0;
-    const ease = "power2.inOut";
-
-    if (mode === "projects") {
-      gsap.to(cameraRef.current.position, {
-        x,
-        y,
-        z,
-        duration,
-        ease,
-        onStart: () => cameraRef.current.lookAt(0, y, 0),
-      });
-    } else {
-      gsap.to(cameraRef.current.position, {
-        x,
-        y,
-        z,
-        duration,
-        ease,
-        onUpdate: () => {
-          cameraRef.current.lookAt(0, 0.2, 0);
-        },
-      });
-    }
-
-    if (mode === "about") {
-      gsap.to(nodes.LeftArm.rotation, { x: 1, y: 0.05, z: 1, duration, ease });
-      gsap.to(nodes.LeftForeArm.rotation, { x: 1.9, duration, ease });
-      gsap.to(nodes.RightArm.rotation, {
-        x: 1,
-        y: -0.05,
-        z: -0.7,
-        duration,
-        ease,
-      });
-      gsap.to(nodes.RightForeArm.rotation, { x: 1.85, duration, ease });
-      gsap.to(nodes.Head.rotation, { x: -0.32, y: 0.15, z: 0, duration, ease });
-    } else if (mode === "skills") {
-      gsap.to(nodes.LeftArm.rotation, {
-        x: 0.7,
-        y: -1.2,
-        z: -0.3,
-        duration,
-        ease,
-      });
-      gsap.to(nodes.LeftForeArm.rotation, { x: 1.6, duration, ease });
-      gsap.to(nodes.RightArm.rotation, {
-        x: 0.7,
-        y: 1.2,
-        z: 0.3,
-        duration,
-        ease,
-      });
-      gsap.to(nodes.RightForeArm.rotation, { x: 1.4, duration, ease });
-      gsap.to(nodes.Head.rotation, { x: -0.1, y: 0, z: 0, duration, ease });
-    } else if (mode === "projects") {
-      gsap.to(nodes.Head.rotation, { x: -0.5, y: 0, z: 0, duration, ease });
-    } else if (mode === "certificates") {
-      gsap.to(nodes.LeftArm.rotation, {
-        x: 0.6,
-        y: 0.5,
-        z: 0.1,
-        duration,
-        ease,
-      });
-      gsap.to(nodes.LeftForeArm.rotation, { x: 1.6, duration, ease });
-      gsap.to(nodes.RightArm.rotation, {
-        x: 0.8,
-        y: -0.5,
-        z: 0.1,
-        duration,
-        ease,
-      });
-      gsap.to(nodes.RightForeArm.rotation, { x: 1.4, duration, ease });
-      gsap.to(nodes.Head.rotation, { x: -0.1, y: 0, z: 0, duration, ease });
-    }
-  };
+  const { moveCameraAndPose, overlayRef, textRef } = useAvatarController(
+    cameraRef, nodes, isMobile, setActiveMode, setIsBlinking
+  );
 
   useEffect(() => {
-    if (!cameraRef.current || !nodes) return;
-    const tl = gsap.timeline({ repeat: -1 });
-    loopRef.current = tl;
-    const fadeOut = () =>
-      tl.to(overlayRef.current, { opacity: 1, duration: 0.5 });
-    const fadeIn = () =>
-      tl.to(overlayRef.current, { opacity: 0, duration: 0.5 });
-
-    tl.set(cameraRef.current.position, { x: 0, y: 0, z: 9 });
-    tl.set(cameraRef.current, {
-      onUpdate: () => cameraRef.current.lookAt(0, 0, 4),
-    });
-    fadeIn();
-    tl.to(cameraRef.current.position, {
-      x: 1.4,
-      duration: 4,
-      ease: "none",
-      onUpdate: () => cameraRef.current.lookAt(0, 0, 4),
-    });
-    fadeOut();
-    tl.set(cameraRef.current.position, { x: -3, y: -7, z: -5 });
-    tl.set(cameraRef.current, {
-      onUpdate: () => cameraRef.current.lookAt(0, -7, 4.5),
-    });
-    fadeIn();
-    tl.to(cameraRef.current.position, {
-      x: 3,
-      duration: 4,
-      ease: "none",
-      onUpdate: () => cameraRef.current.lookAt(0, -7, 4.5),
-    });
-    fadeOut();
-    tl.set(cameraRef.current.position, { x: -3, y: -12.5, z: 11 });
-    tl.set(cameraRef.current, {
-      onUpdate: () => cameraRef.current.lookAt(0, -11, 4.5),
-    });
-    fadeIn();
-    tl.to(cameraRef.current.position, {
-      x: 4,
-      duration: 4,
-      ease: "none",
-      onUpdate: () => cameraRef.current.lookAt(0, -11, 4.5),
-    });
-    fadeOut();
-    return () => {
-      tl.kill();
-    };
-  }, [nodes]);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="main-container">
-      <nav className="game-nav">
-        <NavButton
-          icon={HelpCircle}
-          label="About"
-          active={activeMode === "about"}
-          onClick={() => moveCameraAndPose(4, -0.8, 10, "about")}
-        />
-        <NavButton
-          icon={User}
-          label="Skills"
-          active={activeMode === "skills"}
-          onClick={() => moveCameraAndPose(0, -5, 30, "skills")}
-        />
-        <NavButton
-          icon={Briefcase}
-          label="Projects"
-          active={activeMode === "projects"}
-          onClick={() => moveCameraAndPose(-15, 1, 15, "projects")}
-        />
-        <NavButton
-          icon={Award}
-          label="Certificates"
-          active={activeMode === "certificates"}
-          onClick={() => moveCameraAndPose(0, -2, 21, "certificates")}
-        />
-      </nav>
-
-      <div className="social-nav">
-        <a
-          href="https://github.com/ardee11"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="icon-btn"
-        >
-          <Github size={20} />
-          <span className="tooltip">GitHub</span>
-        </a>
-        <a
-          href="https://linkedin.com/in/ardie-dela-cruz"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="icon-btn"
-        >
-          <Linkedin size={20} />
-          <span className="tooltip" style={{ left: "auto", right: "60px" }}>
-            LinkedIn
-          </span>
-        </a>
-      </div>
-
-      <div className="dots-vignette" />
-
-      {activeMode === "about" && <AboutCard />}
-      {activeMode === "skills" && (
-        <div className="ferris-wheel-container">
-          {skillList.map((skill, i) => (
-            <SkillBubble
-              key={skill.name}
-              skill={skill}
-              index={i}
-              total={skillList.length}
-            />
-          ))}
-        </div>
-      )}
-      {activeMode === "projects" && (
-        <div className="projects-view-overlay">
-          {projectList.map((project, i) => (
-            <ProjectCard key={i} {...project} index={i} />
-          ))}
-        </div>
-      )}
-      {activeMode === "certificates" && (
-        <div className="certificates-view-overlay">
-          <div className="cert-row-flat">
-            {certList.map((cert, i) => (
-              <CertificateCard key={i} {...cert} index={i} />
-            ))}
+      {!isMobile && (
+        <>
+          <DesktopUI 
+            activeMode={activeMode} 
+            moveCameraAndPose={moveCameraAndPose} 
+            isBlinking={isBlinking} 
+            textRef={textRef} 
+          />
+          
+          <div className="canvas-wrapper">
+            <div ref={overlayRef} className="scene-overlay" />
+            <Canvas 
+              shadows={{ type: THREE.PCFShadowMap }}
+              gl={{ 
+                alpha: true, 
+                antialias: true 
+              }}
+            >
+              <Suspense fallback={null}>
+                <PerspectiveCamera makeDefault ref={cameraRef} position={[0, 0, 9]} />
+                <Environment preset="city" />
+                <spotLight position={[15, 15, -10]} intensity={5} angle={0.3} penumbra={1} castShadow />
+                <pointLight position={[-15, 10, -10]} intensity={3} color="#2d4bff" />
+                <ambientLight intensity={0.2} />
+                <Avatar setNodes={setNodes} />
+              </Suspense>
+            </Canvas>
           </div>
-        </div>
+        </>
       )}
-
-      <div
-        className="canvas-wrapper"
-        style={{
-          position: "relative",
-          width: "100vw",
-          height: "100vh",
-          zIndex: 1,
-        }}
-      >
-        <div
-          ref={overlayRef}
-          className="scene-overlay"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background: "#030303",
-            zIndex: 10,
-            pointerEvents: "none",
-            opacity: 0,
-          }}
+      {/* {!isMobile ? (
+        <DesktopUI 
+          activeMode={activeMode} 
+          moveCameraAndPose={moveCameraAndPose} 
+          isBlinking={isBlinking} 
+          textRef={textRef} 
         />
-        <Canvas shadows gl={{ alpha: true }}>
-          <Suspense fallback={null}>
-            <PerspectiveCamera
-              makeDefault
-              ref={cameraRef}
-              position={[0, 0, 9]}
-            />
-            <Environment preset="city" />
-            <spotLight
-              position={[15, 15, -10]}
-              intensity={5}
-              angle={0.3}
-              penumbra={1}
-              castShadow
-            />
-            <pointLight
-              position={[-15, 10, -10]}
-              intensity={3}
-              color="#2d4bff"
-            />
-            <ambientLight intensity={0.2} />
-            <Avatar setNodes={setNodes} />
-          </Suspense>
-        </Canvas>
-      </div>
-
-      {/* Hero Text starts hidden (opacity 0) and gets shown via useEffect */}
-      <div ref={textRef} className="hero-text-container" style={{ opacity: 0 }}>
-        <h1 className="hero-name"></h1>
-        <p className={`hero-sub ${isBlinking ? "blinking-cursor" : ""}`}></p>
-      </div>
+      ) : (
+        <MobileUI 
+          activeMode={activeMode} 
+          setActiveMode={setActiveMode} 
+        />
+      )} */}
       <Loader />
     </div>
   );
