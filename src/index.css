@@ -7,3 +7,220 @@
 @import "./styles/components/skills.css";
 @import "./styles/components/projects.css";
 @import "./styles/components/certificates.css";
+
+/* --- MOBILE UI CONTAINER --- */
+.mobile-container {
+  position: fixed;
+  inset: 0;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 24px;
+  z-index: 1000;
+  overflow-y: auto; /* Ensure scrolling if content is long */
+}
+
+/* --- HEADER SECTION --- */
+.mobile-header {
+  height: 100vh;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center; /* Center items vertically in the screen */
+  align-items: center;    /* Center items horizontally */
+  text-align: center;     /* Ensure text inside wraps centered */
+  padding: 24px;
+}
+.status-indicator {
+  color: #04c434;
+  font-size: 0.4rem;
+  letter-spacing: 0.2em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.blink-dot {
+  width: 4px;
+  height: 4px;
+  background: #04c434;
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+  box-shadow: 0 0 5px #04c434;
+}
+
+.mobile-name {
+  white-space: pre-line;
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1;
+}
+
+.mobile-sub {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  margin-top: 8px;
+}
+
+/* --- UPDATED TERMINAL CARD DESIGN --- */
+.terminal-card-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+/* Subtle outer glow to give it depth */
+.terminal-card-container::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, rgba(4, 196, 52, 0.3), transparent, rgba(4, 196, 52, 0.1));
+  filter: blur(8px);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.terminal-window {
+  background: rgba(1, 4, 9, 0.85); /* Deep tech black */
+  backdrop-filter: blur(10px); /* Glassmorphism */
+  border: 1px solid rgba(4, 196, 52, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.terminal-header {
+  background: rgba(22, 27, 34, 0.95);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(4, 196, 52, 0.15);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.red { background: #ff5f56; opacity: 0.9; }
+.yellow { background: #ffbd2e; opacity: 0.9; }
+.green { background: #27c93f; opacity: 0.9; }
+
+.terminal-file-info {
+  color: #04c434;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.terminal-body {
+  padding: 18px 14px;
+  text-align: left;
+}
+
+.terminal-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.line-num {
+  color: rgba(4, 196, 52, 0.35);
+  font-size: 0.7rem;
+  min-width: 16px;
+  padding-top: 3px;
+  user-select: none;
+}
+
+.code-line {
+  color: #e6edf3;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.highlight {
+  color: #04c434;
+  font-weight: bold;
+}
+
+/* --- NAVIGATION GRID --- */
+.mobile-nav-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 18px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.nav-item:active {
+  background: rgba(4, 196, 52, 0.1);
+  border-color: #04c434;
+}
+
+.dim { 
+  opacity: 0.3; 
+  margin-left: auto; 
+}
+
+/* --- FOOTER SECTION --- */
+.mobile-footer {
+  margin-top: auto;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.desktop-callout {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 16px;
+}
+
+.location-tag {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- ANIMATIONS --- */
+.terminal-cursor {
+  color: #04c434;
+  font-weight: bold;
+}
+
+.blinking {
+  animation: terminal-blink 1s infinite;
+}
+
+@keyframes terminal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes blink { 
+  0%, 100% { opacity: 1; } 
+  50% { opacity: 0.3; } 
+}

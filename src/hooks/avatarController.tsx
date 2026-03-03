@@ -26,18 +26,45 @@ export const useAvatarController = (
     setActiveMode(mode);
     setIsBlinking(false);
 
-    if (loopRef.current) {
-      loopRef.current.kill();
-      loopRef.current = null;
-      gsap.to(overlayRef.current, { opacity: 0, duration: 0.3 });
-      
-      const tlText = gsap.timeline();
-      tlText.to(textRef.current, { 
-        left: "100%", xPercent: -100, x: -40, bottom: "20px", duration: 1.8, ease: "expo.inOut" 
-      })
-      .to(".hero-name", { fontSize: "1.2rem", fontWeight: 600, duration: 1.8, ease: "expo.inOut" }, 0)
-      .to(".hero-sub", { fontSize: "0.8rem", letterSpacing: "0.4em", opacity: 0.7, duration: 1.8, ease: "expo.inOut" }, 0);
+if (loopRef.current) {
+  loopRef.current.kill();
+  loopRef.current = null;
+  gsap.to(overlayRef.current, { opacity: 0, duration: 0.3 });
+  
+  const tlText = gsap.timeline();
+
+  tlText.to(textRef.current, { 
+    // Clear all centering logic
+    left: "auto",
+    x: 0,
+    xPercent: 0,
+    transform: "none", 
+    
+    // Set new corner anchors
+    right: "40px",
+    bottom: "20px",
+    
+    // Smooth transition
+    duration: 1.5, 
+    ease: "expo.inOut",
+    
+    // Ensure it looks sharp
+    onStart: () => {
+      gsap.set(textRef.current, { alignItems: "flex-end" });
     }
+  })
+  .to(".hero-name", { 
+    fontSize: "1.5rem", 
+    textAlign: "right",
+    duration: 1.5, 
+    ease: "expo.inOut" 
+  }, 0)
+  .to(".hero-sub", {
+    fontSize: "0.8rem",
+    duration: 1.5,
+    ease: "expo.inOut"
+  }, 0);
+}
 
     if (cameraRef.current.position.z < 0) gsap.set(cameraRef.current.position, { x: 0, y: 0, z: 10 });
 

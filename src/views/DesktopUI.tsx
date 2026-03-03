@@ -11,13 +11,14 @@ interface DesktopUIProps {
   moveCameraAndPose: (x: number, y: number, z: number, mode: string) => void;
   isBlinking: boolean;
   textRef: React.RefObject<HTMLDivElement>;
+  overlayRef: React.RefObject<HTMLDivElement>;
 }
 
 export const DesktopUI: React.FC<DesktopUIProps> = ({ 
   activeMode, 
   moveCameraAndPose, 
   isBlinking, 
-  textRef 
+  textRef
 }) => {
   return (
     <>

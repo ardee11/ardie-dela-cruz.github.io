@@ -30,8 +30,8 @@ export const PROJECT_LIST = [
     year: 2025,
     description: "Designed and implemented a centralized internal management system to streamline company operations, featuring automated reporting, data synchronization, and secure administrative controls.",
     stack: ["Node.js", "PostgreSQL", "React", "Tailwind", "Preline", "Sheets API"],
-    link: "https://your-portal-link.com",
-    image: "/projects/eztech-ss.png",
+    link: "",
+    image: "/images/ezportal.png",
   },
 ];
 

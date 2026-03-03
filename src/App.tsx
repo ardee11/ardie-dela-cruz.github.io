@@ -6,6 +6,7 @@ import { Avatar } from "./components/Avatar";
 import { DesktopUI } from "./views/DesktopUI";
 // import { MobileUI } from "./views/MobileUI";
 import { useAvatarController } from "./hooks/avatarController";
+import { MobileUI } from "./views/MobileUI";
 
 export default function App() {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
@@ -26,13 +27,14 @@ export default function App() {
 
   return (
     <div className="main-container">
-      {!isMobile && (
+      {!isMobile ? (
         <>
           <DesktopUI 
             activeMode={activeMode} 
             moveCameraAndPose={moveCameraAndPose} 
             isBlinking={isBlinking} 
-            textRef={textRef} 
+            textRef={textRef}
+            overlayRef={overlayRef}
           />
           
           <div className="canvas-wrapper">
@@ -55,21 +57,12 @@ export default function App() {
             </Canvas>
           </div>
         </>
-      )}
-      {/* {!isMobile ? (
-        <DesktopUI 
-          activeMode={activeMode} 
-          moveCameraAndPose={moveCameraAndPose} 
-          isBlinking={isBlinking} 
-          textRef={textRef} 
-        />
       ) : (
         <MobileUI 
           activeMode={activeMode} 
-          setActiveMode={setActiveMode} 
         />
-      )} */}
-      <Loader />
+      )}
+      <Loader />     
     </div>
   );
 }
