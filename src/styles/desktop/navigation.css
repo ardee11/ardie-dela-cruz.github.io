@@ -40,7 +40,6 @@
 
 .icon-btn:hover .tooltip { opacity: 1; transform: translateX(0); }
 
-/* --- SOCIAL NAV (RIGHT SIDE) --- */
 .social-nav {
   position: fixed;
   bottom: 30px;

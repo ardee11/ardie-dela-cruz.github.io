@@ -1,0 +1,16 @@
+.mobile-footer {
+  margin-top: auto;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.desktop-callout {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 16px;
+}
+
+.location-tag {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.2);
+}

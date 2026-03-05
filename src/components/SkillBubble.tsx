@@ -14,23 +14,19 @@ export const SkillBubble = ({ skill, index, total }: SkillBubbleProps) => {
   useEffect(() => {
     if (!pivotRef.current || !bubbleRef.current) return;
 
-    // 1. Initial Position: Spread them out evenly in a circle
     const angle = (index / total) * Math.PI * 2;
-    const radius = 350; // Wide radius for that sparse, airy feel
-
+    const radius = 350;
     const x = Math.cos(angle) * radius;
     const y = Math.sin(angle) * radius;
 
     gsap.set(bubbleRef.current, { x, y });
 
-    // Define a single variable so they never get out of sync
     const speed = 50; 
-
     const tl = gsap.timeline({ repeat: -1 });
 
     tl.to(pivotRef.current, {
       rotation: 360,
-      duration: speed, // Updated to 80
+      duration: speed, 
       ease: "none",
       onUpdate: () => {
         if (!bubbleRef.current || !pivotRef.current) return;
@@ -39,7 +35,6 @@ export const SkillBubble = ({ skill, index, total }: SkillBubbleProps) => {
         const parentBounds = pivotRef.current.getBoundingClientRect();
         
         if (parentBounds) {
-          // Logic stays the same, but now runs slower
           const isBottomHalf = bounds.top + bounds.height / 2 > parentBounds.top;
           gsap.set(bubbleRef.current, { 
             opacity: isBottomHalf ? 0 : 1,
@@ -49,14 +44,12 @@ export const SkillBubble = ({ skill, index, total }: SkillBubbleProps) => {
       }
     }, 0);
 
-    // Counter-rotation MUST match the speed exactly
     tl.to(bubbleRef.current, {
       rotation: -360,
-      duration: speed, // Updated to 80
+      duration: speed,
       ease: "none"
     }, 0);
 
-    // Initial pop-in
     gsap.fromTo(bubbleRef.current, 
       { scale: 0 },
       { scale: 1, duration: 1, delay: index * 0.1, ease: "back.out(1.7)" }
@@ -64,17 +57,13 @@ export const SkillBubble = ({ skill, index, total }: SkillBubbleProps) => {
   }, [index, total]);
 
   return (
-  // Inside your SkillBubble return
   <div ref={pivotRef} className="wheel-pivot">
     <div ref={bubbleRef} className="skill-bubble-ferris">
       <div 
         className="bubble-circle" 
         style={{ 
-          // 1. Dynamic Border 
           borderColor: `${skill.color}66`, 
-          // 2. Dynamic Glow
           boxShadow: `0 0 25px ${skill.color}44, inset 0 0 10px ${skill.color}33`,
-          // 3. Dynamic Background Tint (10% opacity)
           backgroundColor: `${skill.color}30`,
         }}
       >

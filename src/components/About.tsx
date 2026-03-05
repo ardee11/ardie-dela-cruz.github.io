@@ -38,7 +38,6 @@ export const AboutCard = () => {
 
     const tl = gsap.timeline({ delay: 1 });
 
-    // Reveal Card
     tl.to(cardRef.current, {
       opacity: 1,
       x: 0,
@@ -61,7 +60,6 @@ export const AboutCard = () => {
       "<",
     );
 
-    // Typing Loop with Blinking Cursor
     paras.forEach((el, index) => {
       const p = el as HTMLElement;
 
@@ -72,16 +70,13 @@ export const AboutCard = () => {
           text: originalTexts[index],
           ease: "none",
           onUpdate: function () {
-            // Append the cursor character during typing
             p.innerHTML =
               this.targets()[0].innerText +
               '<span class="typing-cursor">|</span>';
           },
           onComplete: () => {
-            // Remove cursor from this paragraph when done
             p.innerHTML = originalTexts[index];
 
-            // If this is the last paragraph, maybe add a final cursor at the very end
             if (index === paras.length - 1) {
               p.innerHTML += '<span class="typing-cursor">_</span>';
             }

@@ -6,6 +6,13 @@ import { ProjectCard } from "../components/Project";
 import { CertificateCard } from "../components/Certificates";
 import { SKILL_LIST, PROJECT_LIST, CERT_LIST } from "../constants/index";
 
+import "../styles/desktop/navigation.css";
+import "../styles/desktop/components/about.css";
+import "../styles/desktop/components/certificates.css";
+import "../styles/desktop/components/skills.css";
+import "../styles/desktop/components/hero.css";
+import "../styles/desktop/components/projects.css";
+
 interface DesktopUIProps {
   activeMode: string;
   moveCameraAndPose: (x: number, y: number, z: number, mode: string) => void;

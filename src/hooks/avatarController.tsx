@@ -34,21 +34,17 @@ if (loopRef.current) {
   const tlText = gsap.timeline();
 
   tlText.to(textRef.current, { 
-    // Clear all centering logic
     left: "auto",
     x: 0,
     xPercent: 0,
     transform: "none", 
     
-    // Set new corner anchors
     right: "40px",
     bottom: "20px",
     
-    // Smooth transition
     duration: 1.5, 
     ease: "expo.inOut",
     
-    // Ensure it looks sharp
     onStart: () => {
       gsap.set(textRef.current, { alignItems: "flex-end" });
     }

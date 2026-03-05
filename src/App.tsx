@@ -4,9 +4,9 @@ import { PerspectiveCamera, Loader, Environment } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Avatar } from "./components/Avatar";
 import { DesktopUI } from "./views/DesktopUI";
-// import { MobileUI } from "./views/MobileUI";
 import { useAvatarController } from "./hooks/avatarController";
 import { MobileUI } from "./views/MobileUI";
+import "./styles/layout.css";
 
 export default function App() {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
@@ -59,7 +59,6 @@ export default function App() {
         </>
       ) : (
         <MobileUI 
-          activeMode={activeMode} 
         />
       )}
       <Loader />     

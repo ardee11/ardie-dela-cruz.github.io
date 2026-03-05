@@ -1,0 +1,102 @@
+.terminal-card-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.terminal-card-container::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, rgba(4, 196, 52, 0.3), transparent, rgba(4, 196, 52, 0.1));
+  filter: blur(8px);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.terminal-window {
+  background: rgba(1, 4, 9, 0.85); 
+  backdrop-filter: blur(10px); 
+  border: 1px solid rgba(4, 196, 52, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.terminal-header {
+  background: rgba(22, 27, 34, 0.95);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(4, 196, 52, 0.15);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.red { background: #ff5f56; opacity: 0.9; }
+.yellow { background: #ffbd2e; opacity: 0.9; }
+.green { background: #27c93f; opacity: 0.9; }
+
+.terminal-file-info {
+  color: #04c434;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.terminal-body {
+  padding: 18px 14px;
+  text-align: left;
+}
+
+.terminal-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.line-num {
+  color: rgba(4, 196, 52, 0.35);
+  font-size: 0.7rem;
+  min-width: 16px;
+  padding-top: 3px;
+  user-select: none;
+}
+
+.code-line {
+  color: #e6edf3;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+  min-height: 1.2em;
+}
+
+.terminal-cursor {
+  color: #04c434;
+  font-weight: bold;
+}
+
+.blinking {
+  animation: terminal-blink 1s infinite;
+}
+
+@keyframes terminal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes blink { 
+  0%, 100% { opacity: 1; } 
+  50% { opacity: 0.3; } 
+}
